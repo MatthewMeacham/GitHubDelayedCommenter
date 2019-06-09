@@ -1,8 +1,0 @@
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\bin\Debug\netcoreapp2.0\DataAccess.deps.json
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\bin\Debug\netcoreapp2.0\DataAccess.dll
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\bin\Debug\netcoreapp2.0\DataAccess.pdb
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\obj\Debug\netcoreapp2.0\DataAccess.csproj.CoreCompileInputs.cache
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\obj\Debug\netcoreapp2.0\DataAccess.AssemblyInfoInputs.cache
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\obj\Debug\netcoreapp2.0\DataAccess.AssemblyInfo.cs
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\obj\Debug\netcoreapp2.0\DataAccess.dll
-D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\DataAccess\obj\Debug\netcoreapp2.0\DataAccess.pdb

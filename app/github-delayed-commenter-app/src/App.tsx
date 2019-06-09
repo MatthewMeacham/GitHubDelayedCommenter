@@ -1,29 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.scss';
 import HelloWorld from './components/HelloWorld/HelloWorld';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
+const CLIENT_ID = '11568701cffaa9e8a711';
+const REDIRECT_URI = 'http://localhost:3000/';
+
+const API_BASE_URL = 'http://localhost:62797/api';
+
+export default class App extends React.Component {
+  
+  componentDidMount() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('code')) {
+      const code = urlParams.get('code');
+      fetch(`${API_BASE_URL}/authenticate/github?code=${code}`)
+        .then((response) => console.log(response));
+    }
+  }
+
+  render() {
+    // TODO: Should to specify scope for the github oauth request
+    return (
+      <div className="App">
+        <a href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`}>
+          Login
         </a>
-      </header>
-
-      <HelloWorld message="Matthew" />
-    </div>
-  );
+  
+        <HelloWorld message="Matthew" />
+      </div>
+    );
+  }
+  
 }
-
-export default App;
