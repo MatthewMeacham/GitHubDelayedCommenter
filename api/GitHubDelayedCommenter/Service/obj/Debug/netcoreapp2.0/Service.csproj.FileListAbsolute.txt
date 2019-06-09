@@ -1,0 +1,8 @@
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\bin\Debug\netcoreapp2.0\Service.deps.json
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\bin\Debug\netcoreapp2.0\Service.dll
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\bin\Debug\netcoreapp2.0\Service.pdb
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\obj\Debug\netcoreapp2.0\Service.csproj.CoreCompileInputs.cache
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\obj\Debug\netcoreapp2.0\Service.AssemblyInfoInputs.cache
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\obj\Debug\netcoreapp2.0\Service.AssemblyInfo.cs
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\obj\Debug\netcoreapp2.0\Service.dll
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Service\obj\Debug\netcoreapp2.0\Service.pdb

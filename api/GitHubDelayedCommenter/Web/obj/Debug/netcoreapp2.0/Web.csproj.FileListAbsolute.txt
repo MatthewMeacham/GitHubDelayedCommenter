@@ -1,0 +1,11 @@
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\bin\Debug\netcoreapp2.0\Web.deps.json
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\bin\Debug\netcoreapp2.0\Web.runtimeconfig.json
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\bin\Debug\netcoreapp2.0\Web.runtimeconfig.dev.json
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\bin\Debug\netcoreapp2.0\Web.dll
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\bin\Debug\netcoreapp2.0\Web.pdb
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\obj\Debug\netcoreapp2.0\Web.csprojResolveAssemblyReference.cache
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\obj\Debug\netcoreapp2.0\Web.csproj.CoreCompileInputs.cache
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\obj\Debug\netcoreapp2.0\Web.AssemblyInfoInputs.cache
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\obj\Debug\netcoreapp2.0\Web.AssemblyInfo.cs
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\obj\Debug\netcoreapp2.0\Web.dll
+D:\Programming_Projects\GitHubDelayedCommenter\api\GitHubDelayedCommenter\Web\obj\Debug\netcoreapp2.0\Web.pdb
