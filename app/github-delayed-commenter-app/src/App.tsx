@@ -1,14 +1,16 @@
 import React from 'react';
 import './App.scss';
 import GitHubLogin from './components/GitHubLogin/GitHubLogin';
+import GitHubRepositoriesListViewer, { IRepositoryReference } from './components/GitHubRepositoriesListViewer/GitHubRepositoriesListViewer';
 
 interface IAppProps {
 
 }
 
 interface IAppState {
-    gitHubToken?: string;
+    gitHubAccessToken?: string;
     gitHubAuthenticationStatus: GitHubAuthenticationStatus
+    repositories: IRepositoryReference[];
 }
 
 enum GitHubAuthenticationStatus {
@@ -22,17 +24,42 @@ export default class App extends React.Component<IAppProps, IAppState> {
     constructor(props: IAppProps) {
         super(props);
         this.state = {
-            gitHubAuthenticationStatus: GitHubAuthenticationStatus.NotAttempted
+            gitHubAuthenticationStatus: GitHubAuthenticationStatus.NotAttempted,
+            repositories: []
         };
     }
 
-    private _onGitHubAuthenticationSuccess = (token: string): void => {
-        this.setState({
+    private  _onGitHubAuthenticationSuccess = (token: string): void => {
+        const query =  
+        { 
+            query: 'query { ' +
+            'viewer { ' +
+              'repositories(first: 50) { ' +
+                'edges { ' +
+                  'node { ' +
+                    'name' +
+                  '}' +
+               '}' +
+              '}' +
+            '}' +
+          '}' 
+        };
+
+        fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(query)
+        }).then((response) => response.json())
+        .then((json) => json.data.viewer.repositories.edges.map((repository: any) => ({ name: repository.node.name } as IRepositoryReference)))
+        .then((repositories) => this.setState({
             ...this.state,
             gitHubAuthenticationStatus: GitHubAuthenticationStatus.Authenticated,
-            gitHubToken: token
-        });
-
+            gitHubAccessToken: token,
+            repositories: repositories
+        })).catch((reason) => console.log(`Unable to fetch repos: ${reason}`));
     }
 
     private _onGitHubAuthenticationFailure = (): void => {
@@ -59,6 +86,10 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 </div>
                 <div style={{ display: this._isAuthenticatedWithGitHub() ? 'inline': 'none' }}>
                     <h1>Authenticated with GitHub</h1>
+
+                    <GitHubRepositoriesListViewer gitHubAccessToken={this.state.gitHubAccessToken!} 
+                        repositoriesToList={this.state.repositories}>
+                    </GitHubRepositoriesListViewer>
                 </div>
             </div>
         );
