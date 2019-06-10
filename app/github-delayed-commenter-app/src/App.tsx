@@ -1,34 +1,51 @@
 import React from 'react';
 import './App.scss';
-import HelloWorld from './components/HelloWorld/HelloWorld';
+import GitHubLogin from './components/GitHubLogin/GitHubLogin';
 
-const CLIENT_ID = '11568701cffaa9e8a711';
-const REDIRECT_URI = 'http://localhost:3000/';
+interface IAppProps {
 
-const API_BASE_URL = 'http://localhost:62797/api';
+}
 
-export default class App extends React.Component {
-  
-  componentDidMount() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('code')) {
-      const code = urlParams.get('code');
-      fetch(`${API_BASE_URL}/authenticate/github?code=${code}`)
-        .then((response) => console.log(response));
+interface IAppState {
+    gitHubToken?: string;
+}
+
+export default class App extends React.Component<IAppProps, IAppState> {
+
+    constructor(props: IAppProps) {
+        super(props);
+        this.state = {};
     }
-  }
 
-  render() {
-    // TODO: Should to specify scope for the github oauth request
-    return (
-      <div className="App">
-        <a href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`}>
-          Login
-        </a>
-  
-        <HelloWorld message="Matthew" />
-      </div>
-    );
-  }
-  
+    private _onGitHubAuthenticationSuccess = (token: string): void => {
+        this.setState({
+            ...this.state,
+            gitHubToken: token
+        });
+        console.log(`SUCCESSFULLY AUTHENTICATED: ${token}`);
+
+    }
+
+    private _onGitHubAuthenticationFailure = (): void => {
+        console.log('FAILED TO AUTHENTICATE');
+    }
+
+    private _isAuthenticatedWithGitHub(): boolean {
+        return this.state.gitHubToken !== undefined;
+    }
+
+    render() {
+        return (
+            <div className="App">
+                <div style={{ display: this._isAuthenticatedWithGitHub() ? 'none' : 'inline' }}>
+                    <GitHubLogin 
+                        onAuthenticationSuccess={this._onGitHubAuthenticationSuccess}
+                        onAuthenticationFailure={this._onGitHubAuthenticationFailure}/>
+                </div>
+                <div style={{ display: this._isAuthenticatedWithGitHub() ? 'inline': 'none' }}>
+                    <h1>Authenticated with GitHub</h1>
+                </div>
+            </div>
+        );
+    }
 }

@@ -1,0 +1,60 @@
+import React from 'react';
+import './GitHubLogin.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import Button from 'react-bootstrap/Button';
+
+interface IGitHubLoginProps {
+	onAuthenticationSuccess: (token: string) => void,
+	onAuthenticationFailure: () => void
+}
+
+interface IGitHubLoginState {
+
+}
+
+const API_BASE_URL = 'http://localhost:62797/api';
+
+const CLIENT_ID = '11568701cffaa9e8a711';
+const REDIRECT_URI = 'http://localhost:3000/';
+
+export default class GitHubLogin extends React.Component<IGitHubLoginProps, IGitHubLoginState> {
+	constructor(props: IGitHubLoginProps) {
+		super(props);
+		this.state = {
+			
+		};
+	}
+
+	async componentDidMount() {
+		const urlParams = new URLSearchParams(window.location.search);
+		if (urlParams.has('code')) {
+			const code = urlParams.get('code');
+			
+			try {
+				let response = await fetch(`${API_BASE_URL}/authenticate/github?code=${code}`);
+				if (response) {
+					let json = await response.json();
+					if (json && json.token) {
+						this.props.onAuthenticationSuccess(json.token);
+					} else {
+						this.props.onAuthenticationFailure();
+					}
+				}
+			} catch (error) {
+				this.props.onAuthenticationFailure();
+			}
+		}
+	}
+
+	render() {
+		// TODO: Should to specify scope for the github oauth request
+		return (
+			<div className='component-github-login'>
+				<Button variant="primary" href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`}>
+					<FontAwesomeIcon icon={faGithub} /> Log in with GitHub
+				</Button>
+			</div>
+		);
+	}
+}
