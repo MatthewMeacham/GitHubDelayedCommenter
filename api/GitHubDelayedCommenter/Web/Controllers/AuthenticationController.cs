@@ -1,24 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Core.Models;
+using Core.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Utility;
+using Web.Models.Request;
 
 namespace Web.Controllers
 {
     [Route("api/authenticate")]
     public class AuthenticationController : Controller
     {
-        // GET: api/authenticate/github?code={code}
-        [Route("github")]
-        [HttpGet]
-        public dynamic AuthenticateWithGitHubCode([FromQuery] string code)
+
+        private readonly IGitHubAuthenticationService _gitHubAuthenticationService;
+
+        public AuthenticationController(IGitHubAuthenticationService gitHubAuthenticationService)
         {
-            return new {
-                token = "test",
-                code
-            };
+            _gitHubAuthenticationService = gitHubAuthenticationService;
+        }
+
+        // GET: api/authenticate/github
+        [Route("github")]
+        [HttpPost]
+        public async Task<GitHubAuthenticationResponse> AuthenticateWithGitHubCode([FromBody] GitHubAuthenticationRequest request)
+        {
+            Guard.IsNotNull(request, nameof(request));
+            Guard.IsNotNullOrWhitespace(request.Code, nameof(request.Code));
+
+            return await _gitHubAuthenticationService.AuthenticateWithCode(request.Code);
         }
     }
 }

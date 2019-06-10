@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Config files
+**/[Aa]pp.config
+**/[Aa]ppsettings.json
+**/[Aa]ppsettings.*.json
+
+
 # User-specific files
 *.rsuser
 *.suo

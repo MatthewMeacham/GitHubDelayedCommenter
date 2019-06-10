@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Core.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Web
 {
@@ -15,13 +10,15 @@ namespace Web
     {
         private const string AllowLocalhostOrigin = "AllowLocalhostOrigin";
 
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
-
-        public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -30,10 +27,14 @@ namespace Web
                 options.AddPolicy(AllowLocalhostOrigin,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:3000");
+                        builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader();
                     });
             });
             services.AddMvc();
+            services.AddOptions();
+            services.Configure<GitHubSettings>(Configuration.GetSection("GitHubSettings"));
+
+            services.RegisterWebDependencies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

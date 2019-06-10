@@ -30,16 +30,26 @@ export default class GitHubLogin extends React.Component<IGitHubLoginProps, IGit
 		const urlParams = new URLSearchParams(window.location.search);
 		if (urlParams.has('code')) {
 			const code = urlParams.get('code');
-			
+			const data = { 'code': code }; // TODO: Should specify an interface
+
 			try {
-				let response = await fetch(`${API_BASE_URL}/authenticate/github?code=${code}`);
-				if (response) {
-					let json = await response.json();
-					if (json && json.token) {
-						this.props.onAuthenticationSuccess(json.token);
+				const response = await fetch(`${API_BASE_URL}/authenticate/github`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data)
+				});
+
+				if (response.ok) {
+					const json = await response.json();
+					if (json && json.access_token) {
+						this.props.onAuthenticationSuccess(json.access_token);
 					} else {
-						this.props.onAuthenticationFailure();
+						throw new Error('Response did not contain expected json');
 					}
+				} else {
+					throw new Error('Response was not ok');
 				}
 			} catch (error) {
 				this.props.onAuthenticationFailure();

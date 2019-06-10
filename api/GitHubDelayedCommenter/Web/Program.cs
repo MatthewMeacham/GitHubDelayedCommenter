@@ -19,6 +19,11 @@ namespace Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                    {
+                        config.SetBasePath(Directory.GetCurrentDirectory());
+                        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+                    })
                 .UseStartup<Startup>()
                 .Build();
     }
