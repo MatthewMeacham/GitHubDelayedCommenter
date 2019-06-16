@@ -58,10 +58,9 @@ export default class GitHubLogin extends React.Component<IGitHubLoginProps, IGit
 	}
 
 	render() {
-		// TODO: Should to specify scope for the github oauth request
 		return (
 			<div className='component-github-login'>
-				<Button variant="primary" href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`}>
+				<Button variant="primary" href={`https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo,read:user`}>
 					<FontAwesomeIcon icon={faGithub} /> Log in with GitHub
 				</Button>
 			</div>

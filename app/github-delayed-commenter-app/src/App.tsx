@@ -1,7 +1,10 @@
 import React from 'react';
 import './App.scss';
 import GitHubLogin from './components/GitHubLogin/GitHubLogin';
-import GitHubRepositoriesListViewer, { IRepositoryReference } from './components/GitHubRepositoriesListViewer/GitHubRepositoriesListViewer';
+import GitHubRepositoriesListViewer from './components/GitHubRepositoriesListViewer/GitHubRepositoriesListViewer';
+import { IRepositoryReference } from './models/IRepositoryReference';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
 
 interface IAppProps {
 
@@ -33,16 +36,17 @@ export default class App extends React.Component<IAppProps, IAppState> {
         const query =  
         { 
             query: 'query { ' +
-            'viewer { ' +
-              'repositories(first: 50) { ' +
-                'edges { ' +
-                  'node { ' +
-                    'name' +
-                  '}' +
-               '}' +
-              '}' +
-            '}' +
-          '}' 
+                'viewer { ' +
+                    'repositories(first: 50, affiliations:[OWNER, COLLABORATOR]) { ' +
+                        'edges { ' +
+                            'node { ' +
+                                'name,' +
+                                'url' +
+                            '}' +
+                        '}' +
+                    '}' +
+                '}' +
+            '}' 
         };
 
         fetch('https://api.github.com/graphql', {
@@ -53,13 +57,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
             },
             body: JSON.stringify(query)
         }).then((response) => response.json())
-        .then((json) => json.data.viewer.repositories.edges.map((repository: any) => ({ name: repository.node.name } as IRepositoryReference)))
-        .then((repositories) => this.setState({
-            ...this.state,
-            gitHubAuthenticationStatus: GitHubAuthenticationStatus.Authenticated,
-            gitHubAccessToken: token,
-            repositories: repositories
-        })).catch((reason) => console.log(`Unable to fetch repos: ${reason}`));
+        .then((json) => json.data.viewer.repositories.edges.map((repository: any) => ({ name: repository.node.name, url: repository.node.url } as IRepositoryReference)))
+        .then((repositories) => {
+            this.setState({
+                ...this.state,
+                gitHubAuthenticationStatus: GitHubAuthenticationStatus.Authenticated,
+                gitHubAccessToken: token,
+                repositories: repositories
+            });
+        }).catch((reason) => console.log(`Unable to fetch repos: ${reason}`));
     }
 
     private _onGitHubAuthenticationFailure = (): void => {
@@ -73,9 +79,41 @@ export default class App extends React.Component<IAppProps, IAppState> {
         return this.state.gitHubAuthenticationStatus === GitHubAuthenticationStatus.Authenticated;
     }
 
+    public Index() {
+        return <h2>Home</h2>;
+    }
+      
+    public About() {
+        return <h2>About</h2>;
+    }
+    
+    public Users() {
+        return <h2>Users</h2>;
+    }
+
     render() {
         return (
             <div className="App">
+                <Router>
+                    <nav>
+                        <ul>
+                            <li>
+                                <Link to="/">Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/about/">About</Link>
+                            </li>
+                            <li>
+                                <Link to="/users/">Users</Link>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <Route path="/" exact component={this.Index} />
+                    <Route path="/about/" component={this.About} />
+                    <Route path="/users/" component={this.Users} />
+                </Router>
+
                 <div style={{ display: this._isAuthenticatedWithGitHub()  ? 'none' : 'inline' }}>
                     <GitHubLogin 
                         onAuthenticationSuccess={this._onGitHubAuthenticationSuccess}

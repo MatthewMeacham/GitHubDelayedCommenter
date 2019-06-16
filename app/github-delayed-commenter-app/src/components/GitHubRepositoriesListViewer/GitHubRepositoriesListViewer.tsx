@@ -1,6 +1,7 @@
 import React from 'react';
 import './GitHubRepositoriesListViewer.scss';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { IRepositoryReference } from '../../models/IRepositoryReference';
 
 interface IGitHubRepositoriesListViewerProps {
 	gitHubAccessToken: string;
@@ -9,10 +10,6 @@ interface IGitHubRepositoriesListViewerProps {
 
 interface IGitHubRepositoriesListViewerState {
 	selectedIndex: number;
-}
-
-export interface IRepositoryReference {
-	name: string;
 }
 
 export default class GitHubRepositoriesListViewer extends React.Component<IGitHubRepositoriesListViewerProps, IGitHubRepositoriesListViewerState> {
@@ -34,10 +31,11 @@ export default class GitHubRepositoriesListViewer extends React.Component<IGitHu
 		return (
 			<ListGroup as="ul">
 				{this.props.repositoriesToList.map((repository, index) => {
-					return <ListGroup.Item as="li" 
+					return <ListGroup.Item as="li"
+						key={repository.url}
 						active={this.state.selectedIndex === index}
 						onClick={() => this._onListGroupItemClick(index)}>
-						{repository.name}
+						<a href={repository.url}>{repository.name}</a>
 					</ListGroup.Item>
 				})}
 			</ListGroup>
