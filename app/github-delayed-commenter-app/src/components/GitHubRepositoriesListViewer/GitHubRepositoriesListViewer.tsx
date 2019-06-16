@@ -4,7 +4,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { IRepositoryReference } from '../../models/IRepositoryReference';
 
 interface IGitHubRepositoriesListViewerProps {
-	gitHubAccessToken: string;
 	repositoriesToList: IRepositoryReference[];
 }
 
